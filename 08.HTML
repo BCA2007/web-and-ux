@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Calculator</title>
+  <style>
+    /* Reset default styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #6e7f80, #4b5c5e);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
+      text-align: center;
+    }
+    .calculator {
+      background: #2c3e50;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      width: 320px;
+      transition: transform 0.3s ease-in-out;
+    }
+    .calculator:hover {
+      transform: scale(1.05);
+    }
+    h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #ecf0f1;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      text-align: center;
+      background: #34495e;
+      color: #ecf0f1;
+    }
+    button {
+      width: 48%;
+      padding: 12px;
+      margin: 5px 1%;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background: #3498db;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+    .row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #2ecc71;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>Modern Calculator</h2>
+    <input type="number" id="num1" placeholder="Enter first number">
+    <input type="number" id="num2" placeholder="Enter second number">
+    <div class="row">
+      <button onclick="calculate('add')">Add</button>
+      <button onclick="calculate('sub')">Subtract</button>
+    </div>
+    <div class="row">
+      <button onclick="calculate('mul')">Multiply</button>
+      <button onclick="calculate('div')">Divide</button>
+    </div>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function calculate(operation) {
+      let n1 = parseFloat(document.getElementById('num1').value);
+      let n2 = parseFloat(document.getElementById('num2').value);
+      let res;
+
+      if (isNaN(n1) || isNaN(n2)) {
+        res = "Please enter valid numbers!";
+      } else {
+        switch (operation) {
+          case 'add':
+            res = n1 + n2;
+            break;
+          case 'sub':
+            res = n1 - n2;
+            break;
+          case 'mul':
+            res = n1 * n2;
+            break;
+          case 'div':
+            if (n2 === 0) {
+              res = "Cannot divide by zero!";
+            } else {
+              res = n1 / n2;
+            }
+            break;
+        }
+      }
+      document.getElementById('result').innerText = "Result: " + res;
+    }
+  </script>
+</body>
+</html>

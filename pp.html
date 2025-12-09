@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Personal Profile</title>
+  <style>
+    /* General Page Style */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #e3f2fd;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.5s ease;
+      scroll-behavior: smooth;
+    }
+
+    /* Sticky Navigation Bar */
+    nav {
+      background-color: #0d47a1;
+      color: white;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 20px;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffeb3b;
+    }
+
+    /* Profile Card */
+    .profile {
+      background: white;
+      padding: 30px;
+      margin: 40px auto;
+      max-width: 500px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .profile img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid #0d47a1;
+      transition: transform 0.3s;
+    }
+
+    .profile img:hover {
+      transform: scale(1.1);
+    }
+
+    .profile h1 {
+      color: #0d47a1;
+      margin-top: 15px;
+    }
+
+    .profile p {
+      color: #555;
+      line-height: 1.6;
+    }
+
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 90%;
+      background-color: #fafafa;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #1976d2;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f1f1f1;
+    }
+
+    /* Button Style */
+    button {
+      background-color: #1976d2;
+      color: white;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #1565c0;
+    }
+
+    /* Contact Section */
+    #contact {
+      background-color: #bbdefb;
+      padding: 30px;
+      border-top: 3px solid #0d47a1;
+    }
+
+    #contact h2 {
+      color: #0d47a1;
+    }
+
+    #contact p {
+      font-size: 16px;
+      color: #333;
+    }
+  </style>
+</head>
+<body onload="showPopup()">
+
+  <!-- Navigation Bar -->
+  <nav>
+    <a href="#about">About Me</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- Profile Section -->
+  <section class="profile" id="about">
+    <img src="C:\Users\Harikumar R\OneDrive\Pictures\personal.JPG" alt="My Photo">
+    <h1>HARI KUMAR R</h1>
+    <p><strong>Course:</strong> BCA</p>
+    <p><strong>Email:</strong> harikumar2007@email.com</p>
+    <p><strong>Phone:</strong> 025120521402</p>
+    <p><strong>Experience:</strong> Still a student, currently pursuing studies</p>
+    <p><strong>Languages:</strong> English, Kannada, Hindi, Telugu</p>
+
+    <table>
+      <tr>
+        <th>SL NO</th>
+        <th>MARKS</th>
+        <th>COLLEGE NAME</th>
+        <th>CGPA</th>
+      </tr>
+      <tr>
+        <td>01</td>
+        <td>410</td>
+        <td>St. Benedict's School</td>
+        <td>68%</td>
+      </tr>
+      <tr>
+        <td>02</td>
+        <td>528</td>
+        <td>St. Anthony's PU College</td>
+        <td>88%</td>
+      </tr>
+    </table>
+
+    <button onclick="changeBackground()">Change Background Color</button>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <p>If you'd like to get in touch, feel free to email me at 
+      <strong>harikumar2007@email.com</strong>.
+    </p>
+    <p>Thank you for visiting my profile 💙</p>
+  </section>
+
+  <script>
+    // Popup on page load
+    function showPopup() {
+      alert("👋 Welcome to Hari Kumar R's Personal Profile!");
+    }
+
+    // Change background color randomly
+    function changeBackground() {
+      const colors = ['#e3f2fd', '#fff9c4', '#fce4ec', '#e8f5e9', '#ede7f6', '#ffecb3'];
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      document.body.style.backgroundColor = randomColor;
+    }
+  </script>
+</body>
+</html>

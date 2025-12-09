@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GlamGuides — Learn Makeup Step by Step</title>
+  <meta name="description" content="Beginner-friendly makeup lessons: skincare, base, eyes, lips, tools, and quick looks." />
+  <style>
+    :root{
+      --bg:#fff7fb;
+      --card:#ffffff;
+      --accent:#ff6fa3;
+      --muted:#6b6b6b;
+      --glass: rgba(255,255,255,0.7);
+      --shadow: 0 6px 20px rgba(17,17,17,0.08);
+      --radius:16px;
+      --max-width:1100px;
+      --focus: 3px solid rgba(255,111,163,0.15);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,#fff6fb 0%, #fff 60%);
+      color:#222;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      padding:40px 20px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .container{
+      width:100%;
+      max-width:var(--max-width);
+    }
+
+    header{
+      display:flex;
+      gap:20px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:28px;
+    }
+
+    .brand{
+      display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;
+    }
+    .logo{
+      width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#ffc0d9);display:grid;place-items:center;box-shadow:var(--shadow);
+      font-weight:700;color:white;font-size:20px
+    }
+    .brand h1{margin:0;font-size:20px}
+    .brand p{margin:0;font-size:12px;color:var(--muted)}
+
+    nav{display:flex;gap:12px;align-items:center}
+    nav a{padding:8px 12px;border-radius:10px;text-decoration:none;color:var(--muted);font-weight:600}
+    nav a.cta{background:var(--accent);color:white;box-shadow:var(--shadow)}
+
+    main{display:grid;grid-template-columns:1fr 360px;gap:28px}
+
+    /* HERO */
+    .hero{
+      background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.75));
+      border-radius:var(--radius);
+      padding:28px;
+      box-shadow:var(--shadow);
+      display:flex;gap:20px;align-items:center
+    }
+    .hero-left{flex:1}
+    .eyebrow{color:var(--accent);font-weight:700;font-size:13px}
+    .hero h2{margin:8px 0 12px;font-size:28px}
+    .hero p{margin:0;color:var(--muted)}
+    .hero .actions{margin-top:16px;display:flex;gap:12px}
+    .btn{padding:10px 14px;border-radius:10px;border:0;font-weight:700;cursor:pointer}
+    .btn.primary{background:var(--accent);color:white}
+    .btn.ghost{background:transparent;border:1px solid rgba(0,0,0,0.06)}
+
+    .hero-right{width:320px}
+    .card-portrait{border-radius:14px;overflow:hidden;box-shadow:var(--shadow);background-image:linear-gradient(180deg, #fff 0%, #fff0f6 100%);}
+    .card-portrait img{display:block;width:100%;height:220px;object-fit:cover}
+    .card-portrait .caption{padding:12px}
+
+    /* SIDEBAR */
+    aside{position:sticky;top:28px}
+    .sidebar-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow)}
+    .progress{display:flex;align-items:center;gap:10px}
+    .progress .dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(180deg,var(--accent),#ff9fca)}
+
+    /* LESSONS */
+    section{margin-top:20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+    .lesson{background:var(--card);border-radius:12px;padding:14px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+    .lesson img{width:100%;height:120px;object-fit:cover;border-radius:10px}
+    .lesson h3{margin:0;font-size:16px}
+    .lesson p{margin:0;color:var(--muted);font-size:13px}
+    .tag{display:inline-block;padding:6px 8px;border-radius:999px;font-weight:700;font-size:11px;background:linear-gradient(90deg,#fff,#fff);border:1px dashed rgba(0,0,0,0.04)}
+
+    /* STEPS */
+    .steps{display:grid;gap:12px;margin-top:12px}
+    .step{display:flex;gap:12px;align-items:flex-start}
+    .step .num{width:44px;height:44px;border-radius:10px;background:var(--glass);display:grid;place-items:center;font-weight:800;color:var(--accent);box-shadow:0 4px 10px rgba(0,0,0,0.04)}
+
+    /* GALLERY */
+    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+    .gallery img{width:100%;height:100px;object-fit:cover;border-radius:8px}
+
+    /* FOOTER */
+    footer{margin-top:24px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* Responsive */
+    @media (max-width:980px){
+      main{grid-template-columns:1fr}
+      .hero-right{width:100%}
+      .gallery{grid-template-columns:repeat(2,1fr)}
+    }
+
+    @media (max-width:520px){
+      body{padding:20px}
+      .hero h2{font-size:22px}
+      .gallery img{height:80px}
+    }
+
+    /* Accessibility focus */
+    a:focus, button:focus, input:focus{outline:none;box-shadow:var(--focus)}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a class="brand" href="#">
+        <div class="logo">GG</div>
+        <div>
+          <h1>GlamGuides</h1>
+          <p>Makeup lessons for beginners</p>
+        </div>
+      </a>
+      <nav>
+        <a href="#lessons">Lessons</a>
+        <a href="#looks">Looks</a>
+        <a href="#tips">Tips</a>
+        <a class="cta" href="#start">Start Learning</a>
+      </nav>
+    </header>
+
+    <main>
+      <div>
+        <section class="hero" id="start">
+          <div class="hero-left">
+            <div class="eyebrow">Beginner Friendly</div>
+            <h2>Learn makeup step-by-step — confidence in every brush stroke</h2>
+            <p>Short, clear lessons with pictures and easy-to-follow steps. From skincare and base, to eyes and lips — build your first signature look.</p>
+
+            <div class="actions">
+              <a class="btn primary" href="#lessons">See Lessons</a>
+              <a class="btn ghost" href="#tips">Quick Tips</a>
+            </div>
+
+            <section style="margin-top:18px">
+              <h3 style="margin:0 0 8px 0">Popular Lessons</h3>
+              <div class="grid">
+                <article class="lesson">
+                  <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=1" alt="Natural everyday makeup">
+                  <div>
+                    <h3>Everyday Natural Look</h3>
+                    <p>Quick routine for fresh, natural makeup in 15 minutes.</p>
+                    <div style="margin-top:10px"><span class="tag">Beginner</span></div>
+                  </div>
+                </article>
+
+                <article class="lesson">
+                  <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=2" alt="Glam evening makeup">
+                  <div>
+                    <h3>Evening Glam</h3>
+                    <p>Smoky eyes and luminous skin for a night out.</p>
+                    <div style="margin-top:10px"><span class="tag">Intermediate</span></div>
+                  </div>
+                </article>
+
+                <article class="lesson">
+                  <img src="https://images.unsplash.com/photo-1612197525880-1ea8d1a8f9d9?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=3" alt="No-makeup makeup">
+                  <div>
+                    <h3>No-Makeup Makeup</h3>
+                    <p>Subtle coverage and soft highlights — look polished, stay natural.</p>
+                    <div style="margin-top:10px"><span class="tag">Quick</span></div>
+                  </div>
+                </article>
+
+              </div>
+            </section>
+
+          </div>
+
+          <aside class="hero-right">
+            <div class="card-portrait">
+              <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=4" alt="Makeup portrait">
+              <div class="caption">
+                <strong>Welcome!</strong>
+                <div style="margin-top:8px;color:var(--muted);font-size:13px">Quick paths: <br>• Start with skincare • Build your base • Master the eyes</div>
+              </div>
+            </div>
+
+            <div style="height:14px"></div>
+
+            <div class="sidebar-card">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <div style="font-weight:800">Your Progress</div>
+                  <div style="color:var(--muted);font-size:13px">0 of 8 lessons finished</div>
+                </div>
+                <div class="progress"><div class="dot"></div></div>
+              </div>
+
+              <div class="steps" style="margin-top:14px">
+                <div class="step"><div class="num">1</div><div><strong>Skincare basics</strong><div style="color:var(--muted);font-size:13px">Cleanse • Tone • Moisturize</div></div></div>
+                <div class="step"><div class="num">2</div><div><strong>Perfect base</strong><div style="color:var(--muted);font-size:13px">Primer • Foundation • Concealer</div></div></div>
+                <div class="step"><div class="num">3</div><div><strong>Brows + Eyes</strong><div style="color:var(--muted);font-size:13px">Shape • Shadow • Liner</div></div></div>
+              </div>
+            </div>
+
+          </aside>
+        </section>
+
+        <section id="lessons">
+          <h2 style="margin-top:18px">Full Lesson List</h2>
+          <p style="color:var(--muted);margin-top:6px">Click any lesson title to open the step-by-step guide.</p>
+
+          <div class="grid" style="margin-top:12px">
+            <!-- Repeatable lesson card -->
+            <article class="lesson">
+              <img src="https://images.unsplash.com/photo-1556228720-1f8cfb1d7a0b?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=5" alt="foundation tutorial">
+              <div>
+                <h3>Skincare & Prep</h3>
+                <p>Why prep matters: protect your skin and make makeup last.</p>
+              </div>
+            </article>
+
+            <article class="lesson">
+              <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=6" alt="blending brushes">
+              <div>
+                <h3>Tools & Brushes</h3>
+                <p>Which brushes to own, and how to clean them safely.</p>
+              </div>
+            </article>
+
+            <article class="lesson">
+              <img src="https://images.unsplash.com/photo-1612197525880-1ea8d1a8f9d9?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=7" alt="eyeshadow makeup">
+              <div>
+                <h3>Eyes: Shadow & Liner</h3>
+                <p>Blend a transition shade, define, and add liner.</p>
+              </div>
+            </article>
+
+            <article class="lesson">
+              <img src="https://images.unsplash.com/photo-1600180758899-6d08f6bfcf5f?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=8" alt="contour and highlight">
+              <div>
+                <h3>Contouring & Highlight</h3>
+                <p>Subtle sculpting to enhance your natural features.</p>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <section id="looks">
+          <h2 style="margin-top:22px">Quick Looks to Try</h2>
+          <div class="gallery" aria-hidden="false" style="margin-top:10px">
+            <img src="https://images.unsplash.com/photo-1519741496078-3a6cfb6b0b1b?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=9" alt="look 1">
+            <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=10" alt="look 2">
+            <img src="https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=11" alt="look 3">
+            <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=12" alt="look 4">
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=13" alt="look 5">
+            <img src="https://images.unsplash.com/photo-1544126592-40b06f77d87f?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=14" alt="look 6">
+          </div>
+        </section>
+
+        <section id="tips">
+          <h2 style="margin-top:22px">Quick Tips</h2>
+          <ul style="color:var(--muted);margin-top:8px">
+            <li>Use thin layers of product — build coverage slowly.</li>
+            <li>Match foundation to jawline, not wrist.</li>
+            <li>Always clean brushes every 1–2 weeks to avoid breakouts.</li>
+            <li>Use a damp sponge for dewy finish; a brush for fuller coverage.</li>
+            <li>Practice different eyeliner styles on paper first (steady hand!).</li>
+          </ul>
+        </section>
+
+      </div>
+
+      <aside>
+        <div class="sidebar-card" style="margin-bottom:14px">
+          <h3 style="margin:0 0 8px 0">Tools Checklist</h3>
+          <ul style="color:var(--muted);margin:0;padding-left:18px">
+            <li>Gentle cleanser & moisturizer</li>
+            <li>Primer & foundation</li>
+            <li>Concealer & setting powder</li>
+            <li>Neutral eyeshadow palette</li>
+            <li>Blending brush, flat shader, angled liner brush</li>
+            <li>Mascara, brow pencil, and a soft lip color</li>
+          </ul>
+        </div>
+
+        <div class="sidebar-card">
+          <h3 style="margin:0 0 8px 0">FAQ</h3>
+          <div style="color:var(--muted);font-size:13px">
+            <strong>Q:</strong> How long will I need to practice?<br>
+            <strong>A:</strong> A few minutes each day — consistency beats marathon sessions.
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <div style="max-width:800px;margin:18px auto 6px auto">Made with care • Tips are beginner-focused and cosmetic-safety friendly. Not a substitute for professional dermatology advice.</div>
+      <div style="color:var(--muted);font-size:12px">© GlamGuides — Your friendly makeup classroom</div>
+    </footer>
+  </div>
+</body>
+</html>

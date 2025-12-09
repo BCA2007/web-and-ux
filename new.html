@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HARI — Movie Tickets & More</title>
+  <meta name="description" content="CineWave — fast, simple movie ticket booking, revive, and comments sections." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+       :root{
+      --bg:#0f172a; /* dark navy */
+      --card:#0b1220;
+      --accent:#ff5a5f; /* coral */
+      --accent-2:#00c2a8; /* teal */
+      --muted:#94a3b8;
+      --glass: rgba(255,255,255,0.03);
+      --radius:12px;
+      color-scheme: dark;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+    }
+
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#071224,var(--bg));color:#e6eef6;min-height:100vh}
+    .wrap{width:clamp(320px,92%,1100px);margin:2rem auto;padding:1rem}
+
+    /* Header & Navigation */
+    header{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.25rem}
+    .brand{display:flex;gap:.75rem;align-items:center;text-decoration:none;color:inherit}
+    .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;font-weight:800}
+    nav{display:flex;gap:.6rem}
+    nav a{color:var(--muted);text-decoration:none;padding:.35rem .6rem;border-radius:8px;border:1px solid transparent;transition:all 0.15s ease}
+    nav a:hover{color:white}
+    nav a.active{color:white;border-color:rgba(255,255,255,0.05);background:rgba(255,255,255,0.02)}
+
+    /* Main Layout */
+    .page-section{display:none} /* Hide all 'pages' by default */
+    .page-section.active{display:block} /* Show the active 'page' */
+
+    .main{display:grid;grid-template-columns:1fr 360px;gap:1rem}
+    @media (max-width:980px){.main{grid-template-columns:1fr}}
+
+    /* Card (Base Style) */
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:1rem;border-radius:var(--radius);box-shadow:0 12px 40px rgba(2,6,23,0.6)}
+
+        .movies{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem}
+    .movie{padding:.6rem;border-radius:10px;background:var(--card);cursor:pointer;border:1px solid rgba(255,255,255,0.02)}
+    .movie.selected{outline:3px solid rgba(255,90,95,0.12)}
+    .meta{font-size:.9rem;color:var(--muted)}
+    .showtimes{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+    .time{padding:.4rem .6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.04);cursor:pointer}
+    .time.selected{background:rgba(0,194,168,0.12);border-color:rgba(0,194,168,0.2)}
+    .seatmap{display:flex;flex-direction:column;gap:.6rem;align-items:center;padding:1rem}
+    .screen{width:100%;max-width:520px;height:26px;background:linear-gradient(90deg,#f3f7fb22,#fff2);border-radius:14px;display:grid;place-items:center;color:var(--muted);font-weight:600}
+    .seats{display:grid;grid-template-columns:repeat(8,40px);gap:10px;padding:1rem;background:transparent;border-radius:10px}
+    .seat{position:relative}
+    .seat input{display:none}
+    .seat label{display:inline-grid;place-items:center;width:40px;height:28px;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.03);cursor:pointer;font-size:.83rem;color:var(--muted)}
+    .seat input:checked + label{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:white;border-color:transparent;box-shadow:0 8px 20px rgba(0,0,0,0.6)}
+    .seat label.unavailable{background:transparent;border:1px dashed rgba(255,255,255,0.04);opacity:.45;cursor:not-allowed}
+    .legend{display:flex;gap:1rem;align-items:center;color:var(--muted);font-size:.9rem;margin-top:.5rem}
+    .legend .key{display:inline-grid;place-items:center;width:22px;height:14px;border-radius:4px}
+    .legend .key.free{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04)}
+    .legend .key.selected{background:linear-gradient(135deg,var(--accent),var(--accent-2))}
+    .legend .key.unavail{background:transparent;border:1px dashed rgba(255,255,255,0.04)}
+    .summary{display:flex;flex-direction:column;gap:.6rem}
+    .summary .line{display:flex;justify-content:space-between;align-items:center}
+    .price{font-weight:800;font-size:1.2rem}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:.6rem 1rem;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#071224}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+    @media (max-width:520px){
+      .seats{grid-template-columns:repeat(6,40px)}
+      .main{grid-template-columns:1fr}
+    }
+
+       .content-area{grid-column: 1 / -1; min-height: 40vh}
+    
+    .review-summary{display:flex; justify-content: space-between; align-items: center; background: var(--card); padding: 1rem; border-radius: var(--radius); margin-bottom: 1rem;}
+    .review-grid{display:flex; flex-direction: column; gap:1rem; max-width: 800px; margin: 0 auto;}
+    .review-card{background:var(--card);padding:1rem;border-radius:var(--radius);border-left:3px solid var(--accent)}
+    .review-header{display:flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;}
+    .review-meta{font-size:.85rem;color:var(--muted);font-weight:400}
+
+    /* Star Rating Component */
+    .stars {
+        color: gold;
+        font-size: 1.2rem;
+        user-select: none;
+    }
+    .average-rating-display {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--accent);
+    }
+    .filter-group{
+        display:flex; gap: 0.75rem; align-items: center;
+    }
+    .filter-group select{
+        padding: 0.4rem;
+        border-radius: 6px;
+        border: 1px solid rgba(255,255,255,0.1);
+        background: var(--card);
+        color: #e6eef6;
+    }
+
+        .comment-container{display:flex;flex-direction:column;gap:1rem;max-width: 800px; margin: 0 auto;}
+    .comment-form input, .comment-form textarea{
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 6px;
+        border: 1px solid rgba(255,255,255,0.1);
+        background: var(--card);
+        color: #e6eef6;
+    }
+    .comment-entry{background:var(--card);padding:1rem;border-radius:var(--radius);border-left:3px solid var(--accent-2)}
+    .comment-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;font-weight:700}
+    .comment-meta{font-size:.85rem;color:var(--muted);font-weight:400}
+
+    /* Footer */
+    footer{margin-top:1rem;color:var(--muted);font-size:.9rem;text-align:center}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="#">
+        <div class="logo">CW</div>
+        <div>
+          <div style="font-weight:700">CineWave</div>
+          <div style="font-size:.85rem;color:var(--muted)">Book. Sit. Enjoy.</div>
+        </div>
+      </a>
+      <nav>
+        <a href="#booking" class="nav-link active" data-page="booking">Book Tickets</a>
+        <a href="#reviews" class="nav-link" data-page="reviews">Movie Reviews</a>
+        <a href="#comments" class="nav-link" data-page="comments">Comments</a>
+      </nav>
+    </header>
+
+    <main class="main">
+
+      <div id="booking" class="page-section active">
+        <section class="card">
+          <h2 style="margin-top:0">Choose Movie & Showtime</h2>
+
+          <div class="movies" id="movies">
+            <div class="movie selected" data-movie="1">
+              <div style="font-weight:700">The Last Horizon</div>
+              <div class="meta">Action • 2h 10m</div>
+              <div class="showtimes">
+                <button class="time selected">3:30 PM</button>
+                <button class="time">6:00 PM</button>
+                <button class="time">9:00 PM</button>
+              </div>
+            </div>
+
+            <div class="movie" data-movie="2">
+              <div style="font-weight:700">Moonlight Cafe</div>
+              <div class="meta">Romance • 1h 45m</div>
+              <div class="showtimes">
+                <button class="time">2:00 PM</button>
+                <button class="time">5:00 PM</button>
+                <button class="time">8:00 PM</button>
+              </div>
+            </div>
+
+            <div class="movie" data-movie="3">
+              <div style="font-weight:700">Galactic Bloom</div>
+              <div class="meta">Sci-fi • 2h 25m</div>
+              <div class="showtimes">
+                <button class="time">1:00 PM</button>
+                <button class="time">4:30 PM</button>
+                <button class="time">7:30 PM</button>
+              </div>
+            </div>
+          </div>
+
+          <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:1rem 0">
+
+          <h3 style="margin:.25rem 0">Select Seats</h3>
+          <div class="card" style="padding:.75rem">
+            <div class="seatmap">
+              <div class="screen">SCREEN</div>
+              <div class="seats" role="grid" aria-label="Seat selection">
+                <div class="seat"><input type="checkbox" id="A1"><label for="A1">A1</label></div>
+                <div class="seat"><input type="checkbox" id="A2"><label for="A2">A2</label></div>
+                <div class="seat"><input type="checkbox" id="A3"><label for="A3">A3</label></div>
+                <div class="seat"><input type="checkbox" id="A4"><label for="A4">A4</label></div>
+                <div class="seat"><input type="checkbox" id="A5"><label for="A5">A5</label></div>
+                <div class="seat"><input type="checkbox" id="A6"><label for="A6">A6</label></div>
+                <div class="seat"><input type="checkbox" id="A7"><label for="A7">A7</label></div>
+                <div class="seat"><input type="checkbox" id="A8"><label for="A8">A8</label></div>
+
+                <div class="seat"><input type="checkbox" id="B1"><label for="B1">B1</label></div>
+                <div class="seat"><input type="checkbox" id="B2" disabled><label class="unavailable" for="B2">B2</label></div>
+                <div class="seat"><input type="checkbox" id="B3"><label for="B3">B3</label></div>
+                <div class="seat"><input type="checkbox" id="B4"><label for="B4">B4</label></div>
+                <div class="seat"><input type="checkbox" id="B5" disabled><label class="unavailable" for="B5">B5</label></div>
+                <div class="seat"><input type="checkbox" id="B6"><label for="B6">B6</label></div>
+                <div class="seat"><input type="checkbox" id="B7"><label for="B7">B7</label></div>
+                <div class="seat"><input type="checkbox" id="B8"><label for="B8">B8</label></div>
+
+                <div class="seat"><input type="checkbox" id="C1"><label for="C1">C1</label></div>
+                <div class="seat"><input type="checkbox" id="C2"><label for="C2">C2</label></div>
+                <div class="seat"><input type="checkbox" id="C3"><label for="C3">C3</label></div>
+                <div class="seat"><input type="checkbox" id="C4"><label for="C4">C4</label></div>
+                <div class="seat"><input type="checkbox" id="C5"><label for="C5">C5</label></div>
+                <div class="seat"><input type="checkbox" id="C6"><label for="C6">C6</label></div>
+                <div class="seat"><input type="checkbox" id="C7"><label for="C7">C7</label></div>
+                <div class="seat"><input type="checkbox" id="C8"><label for="C8">C8</label></div>
+
+              </div>
+              <div class="legend">
+                <div style="display:flex;gap:.4rem;align-items:center"><div class="key free"></div><div>Available</div></div>
+                <div style="display:flex;gap:.4rem;align-items:center"><div class="key selected"></div><div>Selected</div></div>
+                <div style="display:flex;gap:.4rem;align-items:center"><div class="key unavail"></div><div>Unavailable</div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="card">
+          <h3 style="margin-top:0">Booking Summary</h3>
+          <div class="summary">
+            <div class="line"><div>Movie</div><div id="sum-movie">The Last Horizon</div></div>
+            <div class="line"><div>Showtime</div><div id="sum-time">3:30 PM</div></div>
+            <div class="line"><div>Seats</div><div id="sum-seats">None</div></div>
+            <div class="line"><div>Price (per seat)</div><div>₹120</div></div>
+            <div class="line" style="border-top:1px dashed rgba(255,255,255,0.04);padding-top:.6rem"><div class="price">Total</div><div class="price" id="sum-total">₹0</div></div>
+
+            <div style="display:flex;gap:.6rem;margin-top:.6rem">
+              <button class="btn btn-primary" id="checkout">Proceed to Pay</button>
+              <button class="btn btn-ghost" id="reset">Reset</button>
+            </div>
+
+            <div style="margin-top:.6rem;color:var(--muted);font-size:.9rem">Note: This is a static demo — no real payments are processed.</div>
+          </div>
+        </aside>
+      </div>
+      
+      <div id="reviews" class="page-section content-area">
+        <h2 style="margin-top:0">Customer Movie Reviews ✨</h2>
+        
+        <div class="review-summary">
+            <div class="filter-group">
+                <h4 style="margin:0; color: var(--muted); font-weight: 500;">Filter Movie:</h4>
+                <select id="movieFilter">
+                    <option value="all">All Movies</option>
+                    <option value="1">The Last Horizon</option>
+                    <option value="2">Moonlight Cafe</option>
+                    <option value="3">Galactic Bloom</option>
+                </select>
+            </div>
+            <div>
+                <div style="font-size:0.9rem; color: var(--muted);">Average Rating</div>
+                <div class="average-rating-display">
+                    <span id="avgRatingValue">5.0</span>/5
+                </div>
+                <div id="reviewCount" style="color:var(--muted); font-size: 0.85rem;">(2 Reviews)</div>
+            </div>
+        </div>
+        
+        <div id="reviewList" class="review-grid">
+            </div>
+      </div>
+      
+      <div id="comments" class="page-section content-area">
+        <h2 style="margin-top:0">Visitor Comments & Feedback</h2>
+        <div class="comment-container">
+            <div class="card comment-form">
+                <h3 style="margin-top:0;margin-bottom:0.75rem">Leave a Comment</h3>
+                <input type="text" id="commentName" placeholder="Your Name" required>
+                <textarea id="commentText" placeholder="Your Feedback or Comment" rows="4" required></textarea>
+                <button class="btn btn-primary" id="submitComment" style="width:100%">Submit Comment</button>
+            </div>
+
+            <h3 style="margin-top:0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem">Recent Comments</h3>
+            
+            <div id="commentsList" style="display:flex; flex-direction: column; gap: 0.75rem;">
+                <div class="comment-entry">
+                    <div class="comment-header">
+                        <span>MovieLover78</span>
+                        <span class="comment-meta">Oct 15, 2025</span>
+                    </div>
+                    <p style="margin:0">The CineWave site design is fantastic! Very easy to use. I hope you guys add more movie showtimes soon.</p>
+                </div>
+                <div class="comment-entry">
+                    <div class="comment-header">
+                        <span>Anonymous Viewer</span>
+                        <span class="comment-meta">Oct 14, 2025</span>
+                    </div>
+                    <p style="margin:0">I love the new reviews section. It's much better than the old voting system!</p>
+                </div>
+            </div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer>
+      <div style="max-width:800px;margin:1rem auto;color:var(--muted)">© CineWave 2025 — All sections combined in one page structure.</div>
+    </footer>
+  </div>
+
+  <script>
+    // --- Static Data for Dynamic Reviews ---
+    const MOVIE_REVIEWS = [
+        { id: 101, movieId: 1, movieName: "The Last Horizon", user: "RajanK", rating: 5, reviewText: "Absolutely phenomenal action and visual effects. The runtime flew by! A must-watch.", date: "Oct 16, 2025" },
+        { id: 102, movieId: 2, movieName: "Moonlight Cafe", user: "PriyaR", rating: 4, reviewText: "A sweet, charming romance. A little slow in the middle, but the ending was perfect.", date: "Oct 15, 2025" },
+        { id: 103, movieId: 1, movieName: "The Last Horizon", user: "TechGeek", rating: 4, reviewText: "Great cinematography, but the plot felt predictable. Still a solid action movie.", date: "Oct 14, 2025" },
+        { id: 104, movieId: 3, movieName: "Galactic Bloom", user: "SciFiFan", rating: 5, reviewText: "A groundbreaking sci-fi epic! Incredible world-building and philosophical depth.", date: "Oct 13, 2025" },
+        { id: 105, movieId: 2, movieName: "Moonlight Cafe", user: "DateNight", rating: 3, reviewText: "Good for a relaxed evening, but nothing special. The coffee looked good though.", date: "Oct 12, 2025" }
+    ];
+
+    // Helper function to generate star HTML
+    function getStarRatingHTML(rating) {
+        const fullStar = '★';
+        const emptyStar = '☆';
+        const numFull = Math.round(rating); // Round for display
+        const numEmpty = 5 - numFull;
+        return `<span class="stars">${fullStar.repeat(numFull)}${emptyStar.repeat(numEmpty)}</span>`;
+    }
+
+    /* ======================================
+    Movie Review Logic (New Code)
+    ======================================
+    */
+    const reviewListContainer = document.getElementById('reviewList');
+    const movieFilterSelect = document.getElementById('movieFilter');
+    const avgRatingValue = document.getElementById('avgRatingValue');
+    const reviewCountDisplay = document.getElementById('reviewCount');
+
+    // 1. Function to render the reviews based on the filter
+    function renderReviews(filterId) {
+        reviewListContainer.innerHTML = '';
+        
+        let filteredReviews = MOVIE_REVIEWS;
+        if (filterId !== 'all') {
+            const id = parseInt(filterId);
+            filteredReviews = MOVIE_REVIEWS.filter(review => review.movieId === id);
+        }
+
+        if (filteredReviews.length === 0) {
+            reviewListContainer.innerHTML = '<div class="card" style="text-align:center; color:var(--muted);">No reviews found for this movie yet.</div>';
+        }
+
+        // Calculate average rating
+        const totalRating = filteredReviews.reduce((sum, review) => sum + review.rating, 0);
+        const avgRating = filteredReviews.length > 0 ? (totalRating / filteredReviews.length) : 0;
+        
+        // Update summary display
+        avgRatingValue.textContent = avgRating.toFixed(1);
+        reviewCountDisplay.textContent = `(${filteredReviews.length} Review${filteredReviews.length === 1 ? '' : 's'})`;
+
+        // Render individual reviews
+        filteredReviews.forEach(review => {
+            const reviewCard = document.createElement('div');
+            reviewCard.classList.add('review-card');
+            
+            reviewCard.innerHTML = `
+                <div class="review-header">
+                    <span style="font-weight:700">${review.user}</span>
+                    <span class="review-meta">${review.date}</span>
+                </div>
+                <div style="margin-bottom: 0.5rem;">${getStarRatingHTML(review.rating)} - <span style="font-weight:600">${review.movieName}</span></div>
+                <p style="margin:0">${review.reviewText}</p>
+            `;
+            reviewListContainer.appendChild(reviewCard);
+        });
+    }
+
+    // 2. Event listener for the filter dropdown
+    movieFilterSelect.addEventListener('change', (e) => {
+        renderReviews(e.target.value);
+    });
+
+    // 3. Initial render when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        renderReviews(movieFilterSelect.value);
+    });
+
+
+    /* ======================================
+    CineWave Booking Logic (Updated to INR ₹120)
+    ======================================
+    */
+    (function(){
+      const sumMovie = document.getElementById('sum-movie');
+      const sumTime = document.getElementById('sum-time');
+      const sumSeats = document.getElementById('sum-seats');
+      const sumTotal = document.getElementById('sum-total');
+      const seatCheckboxes = Array.from(document.querySelectorAll('.seats input[type="checkbox"]'));
+      // UPDATED PRICE TO ₹120
+      const PRICE = 120; 
+
+      function updateSummary(){
+        const selectedMovie = document.querySelector('#booking .movie.selected');
+        const selectedTime = document.querySelector('#booking .time.selected');
+        sumMovie.textContent = selectedMovie ? selectedMovie.querySelector('div').textContent : '—';
+        sumTime.textContent = selectedTime ? selectedTime.textContent : '—';
+
+        const seats = seatCheckboxes.filter(cb => cb.checked && !cb.disabled).map(cb => cb.id);
+        sumSeats.textContent = seats.length ? seats.join(', ') : 'None';
+        // UPDATED CURRENCY SYMBOL TO ₹
+        sumTotal.textContent = '₹' + (seats.length * PRICE);
+      }
+
+      // movie click
+      document.querySelectorAll('#booking .movie').forEach(m => m.addEventListener('click', () =>{
+        document.querySelectorAll('#booking .movie').forEach(x=>x.classList.remove('selected'));
+        m.classList.add('selected');
+        // reset times: select first time by default
+        m.querySelectorAll('.time').forEach(t=>t.classList.remove('selected'));
+        const t0 = m.querySelector('.time'); if(t0) t0.classList.add('selected');
+        updateSummary();
+      }));
+
+      // showtime click
+      document.querySelectorAll('#booking .time').forEach(t => t.addEventListener('click', (e)=>{
+        // remove selected from all times
+        document.querySelectorAll('#booking .time').forEach(x=>x.classList.remove('selected'));
+        t.classList.add('selected');
+        updateSummary();
+      }));
+
+      // seat toggles
+      seatCheckboxes.forEach(cb => cb.addEventListener('change', updateSummary));
+
+      // reset
+      document.getElementById('reset').addEventListener('click', ()=>{
+        seatCheckboxes.forEach(cb => { if(!cb.disabled) cb.checked=false });
+        updateSummary();
+      });
+
+      // checkout demo
+      document.getElementById('checkout').addEventListener('click', ()=>{
+        const seats = seatCheckboxes.filter(cb=>cb.checked && !cb.disabled).map(cb=>cb.id);
+        if(!seats.length){ alert('Please select at least one seat to proceed.'); return; }
+        alert('Demo: booking confirmed for ' + seats.join(', ') + '\nTotal: ' + sumTotal.textContent);
+      });
+
+      // initial update
+      updateSummary();
+    })();
+
+    /* ======================================
+    SPA/Page Switching Logic (Updated page ID)
+    ======================================
+    */
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('.page-section');
+
+    function showPage(pageId) {
+      // 1. Hide all sections
+      sections.forEach(section => section.classList.remove('active'));
+      
+      // 2. Show the target section
+      const targetSection = document.getElementById(pageId);
+      if (targetSection) {
+        targetSection.classList.add('active');
+        // Hide sidebar for non-booking pages (responsive layout tweak)
+        document.querySelector('.main').style.gridTemplateColumns = (pageId === 'booking') ? '1fr 360px' : '1fr';
+      }
+
+      // 3. Update active nav link
+      navLinks.forEach(link => link.classList.remove('active'));
+      const activeLink = document.querySelector(`.nav-link[data-page="${pageId}"]`);
+      if (activeLink) {
+        activeLink.classList.add('active');
+      }
+    }
+    
+    // Event listener for navigation links
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const pageId = link.getAttribute('data-page');
+        showPage(pageId);
+        
+        // Specific logic for Reviews page on click
+        if (pageId === 'reviews') {
+            renderReviews(movieFilterSelect.value);
+        }
+      });
+    });
+
+    // Handle initial load based on URL hash (optional)
+    const initialPage = window.location.hash.substring(1) || 'booking';
+    if(initialPage) {
+        showPage(initialPage);
+    }
+    
+    /* ======================================
+    Comment Submission Logic (Original)
+    ======================================
+    */
+    document.getElementById('submitComment').addEventListener('click', () => {
+        const nameInput = document.getElementById('commentName');
+        const textInput = document.getElementById('commentText');
+        const commentsList = document.getElementById('commentsList');
+
+        const name = nameInput.value.trim() || 'Anonymous';
+        const text = textInput.value.trim();
+
+        if (text) {
+            const newComment = document.createElement('div');
+            newComment.classList.add('comment-entry');
+            
+            // Format date for display
+            const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+            newComment.innerHTML = `
+                <div class="comment-header">
+                    <span>${name}</span>
+                    <span class="comment-meta">${date}</span>
+                </div>
+                <p style="margin:0">${text}</p>
+            `;
+            
+            // Add new comment to the top of the list
+            commentsList.prepend(newComment);
+            
+            // Clear the form
+            nameInput.value = '';
+            textInput.value = '';
+            alert('Comment submitted! (This is a demo, comments are not saved)');
+        } else {
+            alert('Please enter a comment.');
+        }
+    });
+
+  </script>
+</body>
+</html>

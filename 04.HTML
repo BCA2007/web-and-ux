@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FitForge — Build Your Body (Beginner's Guide)</title>
+  <meta name="description" content="Beginner-friendly fitness guides for boys: warm-ups, workouts, nutrition, and progress tracking." />
+  <style>
+    :root{
+      --bg:#f6fbff;
+      --card:#ffffff;
+      --accent:#0b76ff;
+      --accent-2:#00c2a8;
+      --muted:#6a6f77;
+      --shadow: 0 8px 26px rgba(11,118,255,0.06);
+      --radius:14px;
+      --max-width:1100px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:linear-gradient(180deg,#f6fbff 0%, #ffffff 60%);
+      color:#0c1221; -webkit-font-smoothing:antialiased; line-height:1.5; padding:32px 18px; display:flex; justify-content:center;
+    }
+    .container{width:100%;max-width:var(--max-width)}
+
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:white;font-weight:800}
+    .brand h1{margin:0;font-size:20px}
+    .brand p{margin:0;font-size:12px;color:var(--muted)}
+
+    nav{display:flex;gap:10px}
+    nav a{padding:8px 12px;border-radius:10px;text-decoration:none;color:var(--muted);font-weight:700}
+    nav a.cta{background:var(--accent);color:white}
+
+    main{display:grid;grid-template-columns:1fr 320px;gap:24px}
+
+    .hero{background:var(--card);padding:22px;border-radius:16px;box-shadow:var(--shadow);display:flex;gap:18px;align-items:center}
+    .hero-left{flex:1}
+    .eyebrow{color:var(--accent);font-weight:800;font-size:13px}
+    .hero h2{margin:8px 0 10px;font-size:26px}
+    .hero p{margin:0;color:var(--muted)}
+    .btn{padding:10px 14px;border-radius:10px;border:0;font-weight:800;cursor:pointer}
+    .btn.primary{background:var(--accent);color:white}
+    .btn.ghost{background:transparent;border:1px solid rgba(0,0,0,0.06)}
+
+    .hero-right{width:300px}
+    .card-img{border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+    .card-img img{width:100%;height:180px;object-fit:cover}
+
+    section{margin-top:18px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+    .card{background:var(--card);border-radius:12px;padding:14px;box-shadow:var(--shadow)}
+    .card h3{margin:0 0 8px 0}
+    .card p{margin:0;color:var(--muted);font-size:14px}
+
+    .workout{display:flex;gap:12px;align-items:flex-start}
+    .workout .icon{width:54px;height:54;border-radius:10px;background:linear-gradient(180deg,#fff,#f2fbff);display:grid;place-items:center;font-weight:800;color:var(--accent);box-shadow:0 6px 18px rgba(11,118,255,0.06)}
+
+    .list{padding-left:18px;color:var(--muted)}
+
+    .progress-bar{background:#f1f5fb;border-radius:999px;height:12px;overflow:hidden}
+    .progress-bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0}
+
+    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+    .gallery img{width:100%;height:90px;object-fit:cover;border-radius:8px}
+
+    footer{margin-top:20px;color:var(--muted);text-align:center;font-size:13px}
+
+    @media (max-width:980px){main{grid-template-columns:1fr} .hero-right{width:100%} .gallery{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:520px){body{padding:18px}.hero h2{font-size:20px}.gallery img{height:70px}}
+
+    a:focus, button:focus, input:focus{outline:none;box-shadow:0 0 0 3px rgba(11,118,255,0.12)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a class="brand" href="#">
+        <div class="logo">FF</div>
+        <div>
+          <h1>FitForge</h1>
+          <p>Build strength • Learn form • Track progress</p>
+        </div>
+      </a>
+      <nav>
+        <a href="#workouts">Workouts</a>
+        <a href="#nutrition">Nutrition</a>
+        <a href="#tips">Tips</a>
+        <a class="cta" href="#start">Start Now</a>
+      </nav>
+    </header>
+
+    <main>
+      <div>
+        <section class="hero" id="start">
+          <div class="hero-left">
+            <div class="eyebrow">Beginner Friendly</div>
+            <h2>Build your body — safe, steady progress for boys</h2>
+            <p>Simple programs, clear instructions, and healthy nutrition guidance to help you get stronger and feel confident.</p>
+            <div style="margin-top:12px;display:flex;gap:10px">
+              <a class="btn primary" href="#workouts">See Workouts</a>
+              <a class="btn ghost" href="#nutrition">Nutrition Guide</a>
+            </div>
+
+            <div style="margin-top:18px">
+              <h3 style="margin:0 0 8px 0">Plan Overview</h3>
+              <div class="grid">
+                <div class="card">
+                  <h3>3-Day Starter Split</h3>
+                  <p>Push / Pull / Legs — focus on compound lifts and proper form.</p>
+                </div>
+                <div class="card">
+                  <h3>Home-Friendly Option</h3>
+                  <p>Bodyweight versions of key moves — no equipment needed.</p>
+                </div>
+                <div class="card">
+                  <h3>Nutrition Basics</h3>
+                  <p>Simple ways to eat for muscle and recovery — calories and protein explained.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="hero-right">
+            <div class="card-img">
+              <img src="https://images.unsplash.com/photo-1558611848-73f7eb4001d7?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=1" alt="fitness">
+            </div>
+
+            <div style="height:12px"></div>
+
+            <div class="card">
+              <h3 style="margin:0 0 8px 0">Your Weekly Progress</h3>
+              <div style="color:var(--muted);font-size:13px;margin-bottom:8px">Workouts completed: <strong>0 / 3</strong></div>
+              <div class="progress-bar" aria-hidden="true"><span style="width:0%"></span></div>
+              <div style="margin-top:10px;color:var(--muted);font-size:13px">Tip: track weights and reps to measure progress.</div>
+            </div>
+          </aside>
+        </section>
+
+        <section id="workouts">
+          <h2 style="margin-top:18px">Workouts</h2>
+          <p style="color:var(--muted);margin-top:6px">Click a workout to view steps and form tips.</p>
+
+          <div class="grid" style="margin-top:12px">
+            <article class="card">
+              <div class="workout">
+                <div class="icon">1</div>
+                <div>
+                  <h3 style="margin:0">Push Day — Chest, Shoulders, Triceps</h3>
+                  <p class="list">Bench press / Push-ups / Overhead press / Tricep dips — 3 sets of 6–12 reps.</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="workout">
+                <div class="icon">2</div>
+                <div>
+                  <h3 style="margin:0">Pull Day — Back, Biceps</h3>
+                  <p class="list">Pull-ups / Rows / Face pulls / Bicep curls — 3 sets of 6–12 reps.</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="workout">
+                <div class="icon">3</div>
+                <div>
+                  <h3 style="margin:0">Leg Day — Quads, Hamstrings, Glutes</h3>
+                  <p class="list">Squats / Deadlifts / Lunges / Calf raises — 3 sets of 6–12 reps.</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <h3>Home Workout — No Equipment</h3>
+              <p class="list">Push-ups, Bodyweight squats, Glute bridges, Planks — circuit-style, 3 rounds.</p>
+            </article>
+
+          </div>
+        </section>
+
+        <section id="nutrition">
+          <h2 style="margin-top:18px">Nutrition Basics</h2>
+          <p style="color:var(--muted);margin-top:6px">Fuel your progress: eat enough calories, focus on protein, and prioritize sleep and hydration.</p>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+            <div class="card">
+              <h3>Protein Targets</h3>
+              <p class="list">Aim for ~1.6–2.0 g protein/kg bodyweight daily for muscle growth (beginner guideline).</p>
+            </div>
+            <div class="card">
+              <h3>Simple Meal Ideas</h3>
+              <p class="list">Eggs + oats, Chicken + rice + veg, Beans + quinoa, Greek yogurt + fruit.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="tips">
+          <h2 style="margin-top:18px">Form & Safety Tips</h2>
+          <ul style="color:var(--muted);margin-top:8px">
+            <li>Always warm up 5–10 minutes (light cardio + mobility).</li>
+            <li>Prioritize form over heavy weights — controlled reps.</li>
+            <li>Rest 48 hours between working the same muscle group hard.</li>
+            <li>Get 7–9 hours sleep to support recovery and growth.</li>
+            <li>If unsure, consult a qualified coach or trainer.</li>
+          </ul>
+        </section>
+
+      </div>
+
+      <aside>
+        <div class="card" style="margin-bottom:12px">
+          <h3 style="margin:0 0 8px 0">Tools & Gear</h3>
+          <ul style="color:var(--muted);margin:0;padding-left:18px">
+            <li>Pair of dumbbells or resistance bands</li>
+            <li>Comfortable sneakers and water bottle</li>
+            <li>Workout log (notebook or app)</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 8px 0">FAQ</h3>
+          <div style="color:var(--muted);font-size:13px">
+            <strong>Q:</strong> How fast will I see changes?<br>
+            <strong>A:</strong> Visible changes usually take several weeks; strength improvements can show in the first 2–6 weeks with consistent training.
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h3 style="margin:0 0 8px 0">Quick Mobility</h3>
+          <p style="color:var(--muted);font-size:13px;margin:0">Hip circles, shoulder rolls, and dynamic leg swings — 1–2 minutes before starting.</p>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <div style="max-width:800px;margin:18px auto 6px auto">Created for beginners • General fitness guidance only. Not a replacement for professional medical or trainer advice.</div>
+      <div style="color:var(--muted);font-size:12px">© FitForge — Train safe, get stronger</div>
+    </footer>
+  </div>
+</body>
+</html>
