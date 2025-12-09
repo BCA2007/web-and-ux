@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kabini | The Plant Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="announcement-bar">
+        <span>🌿 <b>Flat 20% OFF</b> on orders above ₹1500! | Free Shipping over ₹500</span>
+    </div>
+
+    <nav class="navbar">
+        <div class="logo"><i class="fas fa-leaf"></i> Kabini</div>
+        <ul class="nav-links">
+            <li class="active" onclick="filterCategory('All')">Home</li>
+            <li onclick="filterCategory('Indoor')">Indoor</li>
+            <li onclick="filterCategory('Outdoor')">Outdoor</li>
+            <li onclick="filterCategory('Balcony')">Balcony</li>
+            <li onclick="filterCategory('Portico')">Portico</li>
+            <li onclick="filterCategory('Fertilizer')">Fertilizers</li>
+            <li onclick="filterCategory('Medicine')">Medicines</li>
+            <li onclick="filterCategory('Accessories')">Tools</li>
+        </ul>
+        <div class="nav-icons">
+            <div class="icon-wrap" onclick="openSearchOverlay()"><i class="fas fa-search"></i></div>
+            <div class="icon-wrap" onclick="toggleTheme()"><i id="theme-icon" class="fas fa-moon"></i></div>
+            <div class="icon-wrap" id="login-btn-nav" onclick="openLoginModal()"><i class="fas fa-user"></i></div>
+            <div id="user-info-nav" style="display:none; align-items:center; gap:8px; cursor:pointer;" onclick="logout()">
+                <span id="nav-user-name" style="font-size:14px; font-weight:700; color:var(--primary);">User</span>
+                <i class="fas fa-sign-out-alt" style="font-size:14px; color:#d32f2f;"></i>
+            </div>
+            <div class="icon-wrap cart-wrap" onclick="toggleCart()">
+                <i class="fas fa-shopping-bag"></i>
+                <span id="cart-count">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Welcome to <br> <span class="highlight">Kabini Gardens</span></h1>
+            <p>Your premium destination for exotic plants, organic fertilizers, and expert plant care guidance.</p>
+            <button class="hero-btn" onclick="document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">
+                Explore Collection <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="category-slider">
+        <div class="cat-item" onclick="filterCategory('Indoor')"><img src="https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=200"><span>Indoor</span></div>
+        <div class="cat-item" onclick="filterCategory('Outdoor')"><img src="https://images.unsplash.com/photo-1559563362-c667ba5f5480?w=200"><span>Outdoor</span></div>
+        <div class="cat-item" onclick="filterCategory('Balcony')"><img src="https://images.unsplash.com/photo-1629729362234-4f4a83288101?w=200"><span>Balcony</span></div>
+        <div class="cat-item" onclick="filterCategory('Portico')"><img src="https://media.istockphoto.com/id/177320705/photo/white-orchid-house-plant-in-orange-pot.jpg?s=612x612&w=0&k=20&c=SqMo3Zdf6pRMBzdTswZAutLrqgadCfz0B7su6gSgPG0="><span>Portico</span></div>
+        <div class="cat-item" onclick="filterCategory('Fertilizer')"><img src="https://media.istockphoto.com/id/805830962/photo/farmer-working-in-wheat-field.jpg?s=612x612&w=0&k=20&c=nnY-TfWYcDEgxibaMjYiCN4zbt9R9PG_nH-laWAIPKc="><span>Fertilizers</span></div>
+        <div class="cat-item" onclick="filterCategory('Medicine')"><img src="https://media.istockphoto.com/id/1316675881/photo/hand-holding-agriculture-fertilizer-or-fertiliser-granules-with-background-of-farm-or-field.jpg?s=612x612&w=0&k=20&c=D87udaO0UbQZrVv2dEENj-6D1yncE4oE9oBi14BdT5M="><span>Medicines</span></div>
+        <div class="cat-item" onclick="filterCategory('Accessories')"><img src="https://media.istockphoto.com/id/1184396971/photo/various-iron-make-gardening-equipment-or-agricultural-tool-like-axe-sickle-scythe-pitchfork.jpg?s=612x612&w=0&k=20&c=dqYtNH4PFbgR4jA1afbhKnq1j6Radctz85Sqef6wBxw="><span>Tools</span></div>
+    </section>
+
+    <div id="products-section">
+        <div class="section-header">
+            <h2 style="margin-bottom: 20px; color: var(--primary);">Our Collection</h2>
+            <div class="filter-tabs">
+                <span class="active" onclick="filterCategory('All')">All</span>
+                <span onclick="filterCategory('Indoor')">Indoor</span>
+                <span onclick="filterCategory('Outdoor')">Outdoor</span>
+                <span onclick="filterCategory('Balcony')">Balcony</span>
+                <span onclick="filterCategory('Portico')">Portico</span>
+                <span onclick="filterCategory('Fertilizer')">Fertilizers</span>
+                <span onclick="filterCategory('Medicine')">Medicines</span>
+                <span onclick="filterCategory('Accessories')">Tools</span>
+            </div>
+        </div>
+        <div class="products-grid" id="products-container"></div>
+    </div>
+
+    <div class="search-overlay" id="search-overlay">
+        <div class="close-search" onclick="closeSearchOverlay()"><i class="fas fa-times"></i></div>
+        <div class="search-content">
+            <input type="text" id="global-search" class="search-large" placeholder="Type to search (e.g. Fern, Rose)..." onkeyup="handleSearch(this.value)">
+            <div id="search-results-container" class="products-grid" style="margin-top: 30px; max-height: 70vh; overflow-y: auto; padding-bottom:50px;">
+                <p style="text-align:center; color:#ccc; width:100%; grid-column:1/-1;">Type above to find plants...</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="cart-modal" style="justify-content:flex-end;">
+        <div class="modal-content" style="height:100%; width:400px; border-radius:30px 0 0 30px; margin:0; animation:slideLeft 0.3s; display: flex; flex-direction: column;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h2>Your Cart</h2>
+                <i class="fas fa-times" style="font-size:24px; cursor:pointer;" onclick="toggleCart()"></i>
+            </div>
+            
+            <div id="cart-items" style="flex:1; overflow-y:auto; margin-bottom:10px;"></div>
+            
+            <div class="cart-summary">
+                <div id="shipping-bar-container"></div>
+
+                <div class="coupon-section" id="coupon-box" style="display:none;">
+                    <input type="text" id="coupon-input" placeholder="Coupon Code" class="modern-input" style="margin:0; width:70%;">
+                    <button class="pay-btn" onclick="applyCoupon()" style="width:28%; margin:0; font-size:13px; padding:12px;">Apply</button>
+                </div>
+                <div id="coupon-msg" style="font-size:12px; margin-bottom:10px; display:none;"></div>
+                <div id="coupon-lock-msg" style="font-size:12px; color:#888; margin-bottom:10px; text-align:center; display:none;">
+                    Add items worth ₹799+ to unlock coupons!
+                </div>
+
+                <div class="price-breakdown">
+                    <div class="price-row-small"><span>Subtotal</span> <span id="bill-subtotal">₹0</span></div>
+                    <div class="price-row-small" id="row-bulk-discount" style="display:none; color:green;">
+                        <span>Bulk Discount (20%)</span> <span>-₹<span id="bill-bulk-disc">0</span></span>
+                    </div>
+                    <div class="price-row-small" id="row-coupon-discount" style="display:none; color:green;">
+                        <span>Coupon (KABINI199)</span> <span>-₹199</span>
+                    </div>
+                    <div class="price-row-small"><span>Delivery</span> <span id="bill-delivery">₹0</span></div>
+                    <hr style="margin:10px 0; border:0; border-top:1px dashed #ccc;">
+                    <div class="price-row-final"><span>Total Amount</span> <span id="bill-final-total">₹0</span></div>
+                </div>
+
+                <div class="gift-option" style="margin-top:10px; font-size:13px;">
+                    <input type="checkbox" id="gift-check" onchange="toggleGiftWrap()"> <label for="gift-check">Gift Wrap (+₹50)</label>
+                </div>
+                
+                <button class="pay-btn" onclick="openCheckout()">Checkout <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeLoginModal()">&times;</span>
+            <h2>Welcome Back</h2>
+            <div id="step-1">
+                <input type="text" id="login-name" class="modern-input" placeholder="Your Name">
+                <input type="tel" id="login-phone" class="modern-input" placeholder="Phone Number">
+                <button class="pay-btn" onclick="sendOTP()">Get OTP</button>
+            </div>
+            <div id="step-2" style="display:none;">
+                <input type="text" id="otp-input" class="modern-input" placeholder="Enter OTP">
+                <button class="pay-btn" onclick="verifyOTP()">Verify & Login</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeCheckout()">&times;</span>
+            <h2>Checkout</h2>
+            <div id="checkout-step-1">
+                <input type="text" id="customer-name" class="modern-input" placeholder="Full Name">
+                <input type="tel" id="customer-phone" class="modern-input" placeholder="Phone Number">
+                <textarea id="customer-address" class="modern-input" placeholder="Delivery Address" rows="3"></textarea>
+                <button class="pay-btn" onclick="proceedToPayment()">Proceed to Pay</button>
+            </div>
+            <div id="checkout-step-2" style="display:none; text-align:center;">
+                <h3>Scan to Pay</h3>
+                <p>Payable Amount: <strong id="pay-amount-display" style="font-size:1.4rem; color:var(--primary);"></strong></p>
+                <div class="qr-box">
+                    <img id="qr-code-img" src="" alt="QR Code" class="qr-img" onerror="this.src='https://via.placeholder.com/150?text=Generating+QR...'">
+                    <a id="upi-pay-btn" href="#" class="upi-pay-link"><i class="fas fa-mobile-alt"></i> Tap to Pay via UPI App</a>
+                </div>
+                <button class="pay-btn" onclick="confirmOrder()">Confirm & Send Order <i class="fab fa-whatsapp"></i></button>
+                <button class="text-btn" onclick="goBackToStep1()">Back</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3>Kabini</h3>
+                <p>Growing happiness, one plant at a time.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p>Mysuru, Karnataka</p>
+                <p>+91 8660173922</p>
+            </div>
+        </div>
+        <div class="copyright">© 2024 Kabini Plant Store.</div>
+    </footer>
+
+    <div id="live-notification" class="live-pill">
+        <img id="notify-img" src="">
+        <div class="notify-text"><span id="notify-title" class="notify-name">User</span><span class="notify-action">bought a plant</span></div>
+    </div>
+    <a href="https://wa.me/918660173922" class="float-wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+    <script src="script.js"></script>
+</body>
+</html>
